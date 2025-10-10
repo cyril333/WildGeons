@@ -1,11 +1,14 @@
-# OOP2-Game-Project-WildGeons
+# WildGeons
 
 ## Members
-- Antolijao, Ave Cyril G.
-- Abesia, Ian Joriem
-- Jabines, Snyd T.
-- Legaspino, Alsen Blythe E.
-- Monsende, Moniquo Nicole C.
+
+| Name | Role | Program / Year |
+|------|------|----------------|
+| **Antolijao, Ave Cyril G.** | Project Manager | **BSIT - 3** |
+| **Abesia, Ian Joriem** | Project Manager | **BSIT - 3** |
+| **Jabines, Snyd T.** | Developer | **BSIT - 3** |
+| **Legaspino, Alsen Blythe E.** | Developer | **BSIT - 3** |
+| **Monsende, Moniquo Nicole C.** | Developer | **BSIT - 3** |
 
 ## Contact Us
 - avecyril.antolijao@cit.edu
