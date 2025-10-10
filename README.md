@@ -1,2 +1,8 @@
 # OOP2-Game-Project-WildGeons
-OOP2 Project
+
+# Members
+Antolijao, Ave Cyril G.
+Abesia, Ian Joriem
+Jabines, Snyd T.
+Legaspino, Alsen Blythe E.
+Monsende, Moniquo Nicole C.
