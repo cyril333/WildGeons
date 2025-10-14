@@ -1,5 +1,18 @@
 # WildGeons
 
+## Narative
+
+The project is an RPG style game that follows the journey of three student protagonists: an IT student, a Computer Science student, and a Computer Engineering student. 
+The main objective of the game is for the characters to overcome academic challenges, represented as subjects and bosses, to obtain the Diploma Award.
+
+## Characters
+
+| Character | Base HP | Base Mana | Base Level | Skill 1 | Skill 2 | Skill 3 |
+|------------|----------|------------|-------------|----------|----------|----------|
+| **Bron (IT Student)** | 1500 | 500 | 1 / 3 | Basic (Bits) | Inter (Syntax Error) | Ulti (RJ45 Bomb) |
+| **Abdul (CS Student)** | 1500 | 500 | 1 / 3 | Basic (Server Guard) | Inter (Abstract Invi) | Ulti (Automata) |
+| **Jamal (CPE Student)** | 1500 | 500 | 1 / 3 | Basic (Wire Whip) | Inter (Trouble Shoot) | Ulti (Robo Minion) |
+
 ## Members
 
 | Name | Role | Program / Year |
