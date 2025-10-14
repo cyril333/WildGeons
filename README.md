@@ -1,11 +1,11 @@
 # WildGeons
 
-## Members
+## Members**Antolijao, Ave Cyril G.** 
 
 | Name | Role | Program / Year |
 |------|------|----------------|
-| **Antolijao, Ave Cyril G.** | Project Manager | **BSIT - 3** |
 | **Abesia, Ian Joriem** | Project Manager | **BSIT - 3** |
+| **Antolijao, Ave Cyril G.** | Project Manager | **BSIT - 3** |
 | **Jabines, Snyd T.** | Developer | **BSIT - 3** |
 | **Legaspino, Alsen Blythe E.** | Developer | **BSIT - 3** |
 | **Monsende, Moniquo Nicole C.** | Developer | **BSIT - 3** |
