@@ -7,11 +7,11 @@ The main objective of the game is for the characters to overcome academic challe
 
 ## Characters
 
-| Character | Base HP | Base Mana | Base Level | Skill 1 | Skill 2 | Skill 3 |
+| Character | Base HP | Base Mana | Base Level | Skill 1 Basic | Skill 2 Inter | Skill 3 Ulti |
 |------------|----------|------------|-------------|----------|----------|----------|
-| **Bron (IT Student)** | 1500 | 500 | 1 / 3 | Basic (Bits) | Inter (Syntax Error) | Ulti (RJ45 Bomb) |
-| **Abdul (CS Student)** | 1500 | 500 | 1 / 3 | Basic (Server Guard) | Inter (Abstract Invi) | Ulti (Automata) |
-| **Jamal (CPE Student)** | 1500 | 500 | 1 / 3 | Basic (Wire Whip) | Inter (Trouble Shoot) | Ulti (Robo Minion) |
+| **Bron (IT Student)** | 1500 | 500 | 1 / 3 | Bits | Syntax Error | RJ45 Bomb |
+| **Abdul (CS Student)** | 1500 | 500 | 1 / 3 | Server Guard | Abstract Invi | Automata |
+| **Jamal (CPE Student)** | 1500 | 500 | 1 / 3 | Wire Whip | Trouble Shoot | Robo Minion |
 
 ## Members
 
