@@ -1,6 +1,6 @@
 # WildGeons
 
-## Members**Antolijao, Ave Cyril G.** 
+## Members
 
 | Name | Role | Program / Year |
 |------|------|----------------|
