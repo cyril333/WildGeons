@@ -14,14 +14,13 @@ The main objective of the game is for the characters to overcome academic challe
 
 ## Members
 
-| Name | Role | Program / Year |
-|------|------|----------------|
-| **Abesia, Ian Joriem** | Project Manager | **BSIT - 3** |
-| **Antolijao, Ave Cyril G.** | Project Manager | **BSIT - 3** |
-| **Jabines, Snyd T.** | Developer | **BSIT - 3** |
-| **Legaspino, Alsen Blythe E.** | Developer | **BSIT - 3** |
-| **Monsende, Moniquo Nicole C.** | Developer | **BSIT - 3** |
-
+| Name | Role | Program / Year | GitHub |
+|------|------|----------------| -------- |
+| **Abesia, Ian Joriem** | Project Manager | **BSIT - 3** | @Iyan-21 |
+| **Antolijao, Ave Cyril G.** | Project Manager | **BSIT - 3** | @cyril333 |
+| **Jabines, Snyd T.** | Developer | **BSIT - 3** | @Ghostaz1|
+| **Legaspino, Alsen Blythe E.** | Developer | **BSIT - 3** | @Blytheskie |
+| **Monsende, Moniquo Nicole C.** | Developer | **BSIT - 3** | @moniquonicole-mosende20 |
 ## Contact Us
 - avecyril.antolijao@cit.edu
 - ian.abesia@cit.edu
