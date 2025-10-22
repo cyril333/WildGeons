@@ -1,4 +1,4 @@
-# WildGeons (3rd Street) snyd 
+# WildGeons (3rd Street) snyd jabines
 ## Narative
 
 The project is an RPG style game that follows the journey of three student protagonists: an IT student, a Computer Science student, and a Computer Engineering student. 
