@@ -5,6 +5,7 @@ public class Main {
         System.out.println("Word");
         System.out.println("Welcome");
         System.out.println("GAY");
+        System.out.println("ARE U GAY?");
         
     }
 }
