@@ -17,7 +17,6 @@ public class GameMenu extends javax.swing.JFrame {
         setVisible(true);
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
@@ -45,7 +44,6 @@ public class GameMenu extends javax.swing.JFrame {
                 btnStartActionPerformed(evt);
             }
         });
-
 
         btnAbout.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
         btnAbout.setForeground(new java.awt.Color(204, 153, 0));
