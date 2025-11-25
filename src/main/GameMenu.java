@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class GameMenu extends JFrame {
 
+    //yeah
     public GameMenu() {
         initComponents();
         setLocationRelativeTo(null);
