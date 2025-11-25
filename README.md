@@ -1,5 +1,3 @@
-# main
-
 ## Narrative
 The project is an RPG style game that follows the journey of three student protagonists: an IT student, a Computer Science student, and a Computer Engineering student. The main objective of the game is for the characters to overcome academic challenges, represented as subjects and bosses, to obtain the Diploma Award.
 
