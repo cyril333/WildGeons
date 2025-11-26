@@ -5,7 +5,7 @@ import java.util.Random;
 
 /**
  * Boss - Specific Enemy Class inheriting from GameEntity.
- * Implements simple patrol movement and the Passive Attack logic required for Map 1.
+ * Implements aggressive movement and higher stats for the Map 1 Boss (Chair Pantaleon).
  */
 public class Boss extends GameEntity {
 
@@ -13,7 +13,7 @@ public class Boss extends GameEntity {
     private int moveTimer = 0;
     private int targetDx = 0;
     private int targetDy = 0;
-    private final int PATROL_SPEED = 5; // Aggressive speed to chase the player
+    private final int PATROL_SPEED = 3; // Aggressive speed to chase the player
     private final int CHANGE_DIR_INTERVAL = 90; // Change direction more often (smoother AI)
 
     // --- MOVEMENT BOUNDARIES ---
@@ -25,7 +25,7 @@ public class Boss extends GameEntity {
 
     // Data from README: Passive Attack: 150 DMG (Increased threat), Interval: 4s
     private static final int BASE_HP = 1500;
-    private static final int BASE_DAMAGE = 180; // Increased damage from 120 to 150
+    private static final int BASE_DAMAGE = 150; // Increased damage from 120 to 150
     private static final long ATTACK_INTERVAL = 4000; // 4 seconds
 
     public Boss(int x, int y, Image sprite) {
