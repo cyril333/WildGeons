@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class CharSelectPanel extends JPanel {
 
-    // --- Custom JLabel that forces the image to scale ---
     class ImageScalerLabel extends JLabel {
         private Image originalImage;
 
@@ -50,7 +49,6 @@ public class CharSelectPanel extends JPanel {
             }
         }
     }
-    // --- END ImageScalerLabel ---
 
     private final MainGameDriver driver;
 
@@ -63,7 +61,6 @@ public class CharSelectPanel extends JPanel {
     private final Map<String, JButton> charButtons = new HashMap<>();
     private final Map<String, ImageScalerLabel> charImageLabels = new HashMap<>();
 
-    // --- Data Maps ---
     private final Map<String, Color> charColors = Map.of(
             "Bron", new Color(0, 153, 204),
             "Abdul", new Color(0, 204, 102),
@@ -96,18 +93,15 @@ public class CharSelectPanel extends JPanel {
         setBackground(new Color(20, 0, 0));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
 
-        // --- Title ---
         JLabel titleLabel = new JLabel("CHARACTER SELECT");
         titleLabel.setFont(new Font("Consolas", Font.BOLD, 36));
         titleLabel.setForeground(new Color(204, 153, 0));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
 
-        // --- CENTER PANEL (Character Images) ---
         JPanel centerWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         centerWrapper.setOpaque(false);
 
-        // 1. Character Image Display (3 Columns in a Row)
         charDisplayPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         charDisplayPanel.setOpaque(false);
 
@@ -118,7 +112,6 @@ public class CharSelectPanel extends JPanel {
 
         centerWrapper.add(charDisplayPanel);
 
-        // 2. Selected Name Header and Skill Display
         JPanel headerWrapper = new JPanel(new BorderLayout());
         headerWrapper.setOpaque(false);
         nameHeader = new JLabel();
@@ -130,23 +123,19 @@ public class CharSelectPanel extends JPanel {
         centerWrapper.add(headerWrapper);
         add(centerWrapper, BorderLayout.CENTER);
 
-        // --- BOTTOM PANEL (Confirm + Back) ---
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        // Back Button
         RpgButton backButton = new RpgButton("BACK", 28);
         backButton.setPreferredSize(new Dimension(200, 60));
         backButton.addActionListener(e -> driver.changeState(MainGameDriver.GameState.MENU));
         bottomPanel.add(backButton, BorderLayout.WEST);
 
-        // Confirm Button
         confirmButton = new RpgButton("CONFIRM (" + selectedCharacter + PROGRAM_MAP.get(selectedCharacter) + ")", 28);
         confirmButton.setPreferredSize(new Dimension(500, 60));
         confirmButton.addActionListener(e -> {
             driver.setSelectedCharacter(selectedCharacter);
-            // CRITICAL CHANGE: Switch to the Story Panel!
             driver.changeState(MainGameDriver.GameState.SHOW_STORY);
         });
 
@@ -165,14 +154,12 @@ public class CharSelectPanel extends JPanel {
         card.setBackground(new Color(20, 0, 0));
         card.setBorder(BorderFactory.createLineBorder(new Color(204, 153, 0), 2));
 
-        // Image Label
         ImageScalerLabel imageLabel = new ImageScalerLabel();
         imageLabel.setPreferredSize(new Dimension(200, 350));
         charImageLabels.put(name, imageLabel);
         loadCharacterImage(name, imageLabel);
         card.add(imageLabel, BorderLayout.CENTER);
 
-        // Select Button
         String buttonText = name + PROGRAM_MAP.get(name);
         RpgButton button = new RpgButton(buttonText, 18);
         button.addActionListener(e -> {
@@ -187,7 +174,6 @@ public class CharSelectPanel extends JPanel {
         return card;
     }
 
-    // RpgButton Class (Same as before)
     class RpgButton extends JButton {
         public RpgButton(String text, int fontSize) {
             super(text);
@@ -260,15 +246,11 @@ public class CharSelectPanel extends JPanel {
     }
 
     private void updateInfoDisplay(String charName) {
-        // --- 1. Name Header (CENTER BOTTOM) ---
-        // Final, clean display: Name, Program, and Ultimate Skill
         String nameText = charName.toUpperCase() + PROGRAM_MAP.get(charName).toUpperCase();
 
         String htmlContent = String.format(
                 "<html><div style='text-align: center; color: #FFFFFF;'>" +
-                        // Name & Program (Large and Colored)
                         "<span style='font-size: 24pt; color: %s;'>%s</span><br>" +
-                        // Ultimate Skill (Bold and Yellow/Gold)
                         "<span style='font-size: 16pt; color: #FFD700; font-weight: bold;'>%s</span>" +
                         "</div></html>",
                 "#" + Integer.toHexString(charColors.get(charName).getRGB()).substring(2),

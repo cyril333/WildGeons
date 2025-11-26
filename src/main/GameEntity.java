@@ -3,26 +3,19 @@ package main;
 import java.awt.*;
 import javax.swing.JComponent;
 
-/**
- * GameEntity - Base class for Player, Bosses, and Enemies.
- * Encapsulates core properties and methods, including the health bar drawing logic.
- */
 public class GameEntity {
 
-    // Core Properties
     protected int x, y;
     protected int width, height;
     protected int hp;
     protected int maxHP;
     protected int damage;
     protected Image sprite;
-    protected String playerName; // FIX: Field for player name
+    protected String playerName;
 
-    // Attack Timer Properties (Used by Enemies/Bosses for Passive Attacks)
     protected long lastAttackTime = 0;
     protected long attackIntervalMs;
 
-    // CONSTRUCTOR: Now accepts playerName
     public GameEntity(int x, int y, int width, int height, int hp, int damage, long attackIntervalMs, Image sprite, String playerName) {
         this.x = x;
         this.y = y;
@@ -36,7 +29,6 @@ public class GameEntity {
         this.playerName = playerName;
     }
 
-    // --- Core Methods ---
 
     public void move(int dx, int dy) {
         this.x += dx;
@@ -52,9 +44,6 @@ public class GameEntity {
         }
     }
 
-    /**
-     * Draws the floating health bar above the entity.
-     */
     public void drawHealthBar(Graphics2D g2d, String name) {
         if (hp <= 0) return;
 
@@ -91,7 +80,8 @@ public class GameEntity {
         lastAttackTime = currentTime;
     }
 
-    // --- Getters ---
+    // mga getters
+
     public int getX() {
         return x;
     }
@@ -107,7 +97,7 @@ public class GameEntity {
     public long getLastAttackTime() { return lastAttackTime; } // FIX: Added missing getter
     public String getPlayerName() { return playerName; }
 
-    // --- Setters / Damage ---
+    // mga setters
     public void setX(int x) { this.x = x; }
     public void setY(int y) { this.y = y; }
     public void takeDamage(int damage) { this.hp -= damage; }

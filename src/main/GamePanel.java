@@ -10,16 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * GamePanel - The core canvas, now refactored to use OOP Entity classes for Phased Combat.
- * FINAL VERSION with robust crash prevention checks and optimized game loop.
- */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
-    // --- NEW CONSTANT: Locked to 60 FPS for smooth gameplay ---
+    // 60fps shit
     private static final int TARGET_FPS = 60;
 
-    // --- GAME CONSTANTS ---
     public enum GamePhase { PHASE_PERSONNEL, PHASE_BOSS, MAP_CLEARED, GAME_OVER }
     private GamePhase currentPhase = GamePhase.PHASE_PERSONNEL;
 
@@ -35,12 +30,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Thread gameThread;
     private volatile boolean isRunning = false;
 
-    // --- OOP ENTITIES ---
+    // ang entities
     private GameEntity player;
     private GameEntity boss;
     private List<Personnel> personnelList = new ArrayList<>();
 
-    // --- COMBAT & STATS ---
+    // mga stats
     private final int MAX_HP = 1500;
     private final int MAX_MANA = 500;
     private int currentHP = MAX_HP;
@@ -52,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private final long ATTACK_DURATION_MS = 200;
     private long bossAttackStartTime = 0;
 
-    // --- DAMAGE POPUPS ---
+    // display damage
     private static class DamagePopup {
         final String text;
         final int x, y;
@@ -70,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
     private List<DamagePopup> popups = new ArrayList<>();
 
-    // --- ASSETS ---
+    // mga picture
     private final Map<String, Image> assetCache = new ConcurrentHashMap<>();
 
     private final String MAP_BG_PATH = "/map1_bg.png";
@@ -89,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             "Jamal", new Color(255, 102, 0) // Orange
     );
 
-    // --- UI/FLOW COMPONENTS ---
+    // flow sa ui
     private JButton flowButton;
 
     private Image loadAsset(String path) {
@@ -101,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 assetCache.put(path, img);
                 return img;
             }
-        } catch (Exception e) { /* ignored */ }
+        } catch (Exception e) { }
         return null;
     }
 
@@ -117,7 +112,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         flowButton = new JButton();
         flowButton.setFont(new Font("Consolas", Font.BOLD, 24));
 
-        // Default Button Styling (will be overridden in rendering)
         flowButton.setBackground(new Color(62, 0, 0, 200));
         flowButton.setForeground(new Color(255, 255, 0));
         flowButton.setBorder(BorderFactory.createLineBorder(new Color(204, 153, 0), 2));
@@ -145,21 +139,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    // --- INITIALIZATION AND FLOW METHODS ---
 
     public void setPlayerCharacter(String charName) {
         currentHP = MAX_HP;
         currentMana = MAX_MANA;
         currentPhase = GamePhase.PHASE_PERSONNEL;
 
-        // FIX: Clear leftover popups and reset boss attack visual on new game
         popups.clear();
         flowButton.setVisible(false);
-        bossAttackStartTime = 0; // CRITICAL FIX: Reset the visual effect start time
+        bossAttackStartTime = 0;
 
         Image playerImg = loadAsset(PLAYER_SPRITE_PATHS.getOrDefault(charName, "/bron_finalsprite.png"));
 
-        // --- PLAYER INIT ---
         player = new GameEntity(
                 400 - PLAYER_DISPLAY_SIZE / 2,
                 300 - PLAYER_DISPLAY_SIZE / 2,
@@ -172,7 +163,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 charName
         );
 
-        // --- BOSS INIT ---
         boss = new Boss(600, 150, assetCache.get(BOSS_PATH));
 
         initializePersonnel();
@@ -194,17 +184,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         } else if (currentPhase == GamePhase.PHASE_BOSS && boss != null && boss.getHP() <= 0) {
             currentPhase = GamePhase.MAP_CLEARED;
 
-            // CRITICAL FIX: Set boss to null immediately to prevent access
             boss = null;
 
-            // Trigger Map Cleared Screen via driver
             if (SwingUtilities.getWindowAncestor(this) instanceof MainGameDriver driver) {
                 SwingUtilities.invokeLater(() -> driver.showMapCleared(player.getPlayerName(), 1));
             }
         }
     }
 
-    // --- GAME LOOP / UPDATE ---
 
     public void startGameLoop() {
         if (!isRunning) {
@@ -225,13 +212,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    /**
-     * FIX: Refactored to use high-precision Nanosecond timing for a stable 60 FPS update rate,
-     * which drastically reduces CPU usage and overheating.
-     */
     @Override
     public void run() {
-        final double NANO_PER_UPDATE = 1_000_000_000.0 / TARGET_FPS; // Use custom target FPS (60 FPS)
+        final double NANO_PER_UPDATE = 1_000_000_000.0 / TARGET_FPS;
         long lastTime = System.nanoTime();
         double delta = 0;
 
@@ -240,16 +223,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             delta += (now - lastTime) / NANO_PER_UPDATE;
             lastTime = now;
 
-            // Update logic loop: ensures updateGameLogic runs at TARGET_FPS
             while (delta >= 1) {
                 updateGameLogic();
                 delta--;
             }
 
-            // Repaint the screen (drawing)
             repaint();
 
-            // Introduce a small sleep if we are ahead of schedule to yield CPU time
             long timeTaken = System.nanoTime() - now;
             long sleepTime = (long)(NANO_PER_UPDATE - timeTaken) / 1_000_000;
 
@@ -260,7 +240,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     Thread.currentThread().interrupt();
                 }
             } else if (sleepTime < -5) {
-                // If we are significantly behind, we still yield to prevent the thread from spinning
                 Thread.yield();
             }
         }
@@ -276,7 +255,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         applyPassiveDamage();
 
-        // Update phase logic (Personnel movement, Boss movement)
         if (currentPhase == GamePhase.PHASE_PERSONNEL) {
             for (Personnel p : personnelList) {
                 p.update(getWidth(), getHeight());
@@ -289,22 +267,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             bossAttackLogic();
         }
 
-        // Player movement
         if (upPressed) player.setY(player.getY() - PLAYER_SPEED);
         if (downPressed) player.setY(player.getY() + PLAYER_SPEED);
         if (leftPressed) player.setX(player.getX() - PLAYER_SPEED);
         if (rightPressed) player.setX(player.getX() + PLAYER_SPEED);
 
-        // Boundary Check
         player.setX(Math.max(0, Math.min(player.getX(), getWidth() - player.getWidth())));
         player.setY(Math.max(HUD_HEIGHT, Math.min(player.getY(), getHeight() - player.getHeight())));
 
-        // Update attack state based on time
         if (isAttacking && System.currentTimeMillis() - attackStartTime > ATTACK_DURATION_MS) {
             isAttacking = false;
         }
 
-        // Update popups (move up and expire)
         popups.removeIf(p -> System.currentTimeMillis() - p.startTime > p.duration);
     }
 
@@ -316,7 +290,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         long currentTime = System.currentTimeMillis();
 
-        // Personnel Passive Damage
         if (currentPhase == GamePhase.PHASE_PERSONNEL) {
             for (Personnel p : personnelList) {
                 if (player.getBounds().intersects(p.getBounds()) && p.getHP() > 0) {
@@ -335,7 +308,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        // Boss Passive Damage
         else if (currentPhase == GamePhase.PHASE_BOSS && boss != null && boss.getHP() > 0) {
             if (player.getBounds().intersects(boss.getBounds())) {
                 if (boss.canAttack()) {
@@ -362,7 +334,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
 
-    // --- COMBAT LOGIC METHODS ---
 
     private void performBasicAttack() {
         if (player == null || currentHP <= 0) return;
@@ -376,10 +347,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         isAttacking = true;
         attackStartTime = currentTime;
 
-        // Attack range rectangle (50 units wide, to the right of the player)
         Rectangle attackBounds = new Rectangle(player.getX() + player.getWidth(), player.getY(), 50, player.getHeight());
 
-        // Player attacks enemies
         int damage = BITS_DAMAGE;
 
         if (currentPhase == GamePhase.PHASE_PERSONNEL) {
@@ -398,14 +367,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    // --- RENDERING ---
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // 1. Draw Map Background
         Image mapImg = assetCache.get(MAP_BG_PATH);
         if (mapImg != null) {
             g2d.drawImage(mapImg, 0, 0, getWidth(), getHeight(), this);
@@ -414,7 +381,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             g2d.fillRect(0, 0, getWidth(), getHeight());
         }
 
-        // 2. Draw Entities
         if (player == null) return;
 
         // Draw Personnel
@@ -425,7 +391,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        // Draw Boss
         if (currentPhase == GamePhase.PHASE_BOSS && boss != null) {
             if (boss.getHP() > 0) {
                 boss.draw(g2d, this);
@@ -433,35 +398,29 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        // Draw Player
         if (currentHP > 0) {
             player.draw(g2d, this);
             drawPlayerStatusAboveEntity(g2d);
         }
 
 
-        // Draw Attack Visual Effect (Bits)
         if (isAttacking) {
             Color attackColor = PLAYER_COLOR_MAP.getOrDefault(player.getPlayerName(), Color.BLUE);
             g2d.setColor(attackColor.brighter());
             g2d.fillRect(player.getX() + player.getWidth(), player.getY() + 10, 50, player.getHeight() - 20);
         }
 
-        // Draw Boss Attack Visual Effect (Red Flash)
         if (bossAttackStartTime > 0 && boss != null) {
             g2d.setColor(Color.RED.darker());
             g2d.fillRect(boss.getX(), boss.getY(), boss.getWidth(), boss.getHeight());
         }
 
-        // Draw Damage Popups
         drawDamagePopups(g2d);
 
-        // Draw Game Over / Map Cleared Message
         if (currentPhase == GamePhase.GAME_OVER) {
             drawMessage(g2d, "GAME OVER!", Color.RED);
             flowButton.setText("BACK TO MENU");
 
-            // --- FIX: Change button color for Game Over ---
             flowButton.setBackground(new Color(150, 0, 0)); // Dark Red Background
             flowButton.setForeground(Color.BLACK); // White Text
             flowButton.setBorder(BorderFactory.createLineBorder(Color.RED, 3)); // Red Border
@@ -470,12 +429,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         } else if (currentPhase == GamePhase.MAP_CLEARED) {
             drawMessage(g2d, "MAP CLEARED!", Color.YELLOW);
 
-            // --- FIX: Change button color back to Gold/Maroon for Map Cleared ---
             flowButton.setBackground(new Color(62, 0, 0, 200));
             flowButton.setForeground(new Color(255, 255, 0));
             flowButton.setBorder(BorderFactory.createLineBorder(new Color(204, 153, 0), 3));
 
-            // The button is hidden because we switch to story, but this sets the default if needed
             flowButton.setVisible(false);
         }
 
@@ -484,7 +441,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    // --- HUD/UI Drawing ---
 
     private void drawDamagePopups(Graphics2D g2d) {
         g2d.setFont(new Font("Consolas", Font.BOLD, 16));
@@ -513,14 +469,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         int hpBarHeight = 6;
         int statusYOffset = -15;
 
-        // HP Bar
         double hpRatio = (double)currentHP / MAX_HP;
         g2d.setColor(Color.RED);
         g2d.fillRect(player.getX() + (player.getWidth() - hpBarWidth) / 2, player.getY() + statusYOffset, (int)(hpBarWidth * hpRatio), hpBarHeight);
         g2d.setColor(Color.WHITE);
         g2d.drawRect(player.getX() + (player.getWidth() - hpBarWidth) / 2, player.getY() + statusYOffset, hpBarWidth, hpBarHeight);
 
-        // Mana Bar (just below HP)
         double manaRatio = (double)currentMana / MAX_MANA;
         Color playerColor = PLAYER_COLOR_MAP.getOrDefault(player.getPlayerName(), Color.CYAN);
         g2d.setColor(playerColor);
@@ -537,12 +491,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g2d.setColor(new Color(204, 153, 0));
         g2d.drawLine(0, HUD_HEIGHT, width, HUD_HEIGHT);
 
-        // Name & Map Info (Left)
         g2d.setFont(new Font("Consolas", Font.BOLD, 18));
         g2d.setColor(playerColor);
         g2d.drawString(player.getPlayerName() + " | Map 1: GLE The Ancient Building", 15, 35);
 
-        // Phase Indicator (Rightmost)
         g2d.setFont(new Font("Consolas", Font.BOLD, 18));
         g2d.setColor(Color.YELLOW);
         String phaseText = (currentPhase == GamePhase.PHASE_PERSONNEL) ?
@@ -562,7 +514,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g2d.drawString(message, x, y);
     }
 
-    // --- Input Handling ---
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -587,5 +538,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { /* Not used */ }
+    public void keyTyped(KeyEvent e) {  }
 }

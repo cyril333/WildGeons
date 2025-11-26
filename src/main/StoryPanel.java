@@ -6,10 +6,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
-/**
- * StoryPanel - Implements a classic JRPG dialogue box interface (NPC bottom-left, text box covers bottom section).
- * This version is simplified for Map 1 ONLY.
- */
 public class StoryPanel extends JPanel {
 
     private final MainGameDriver driver;
@@ -18,22 +14,18 @@ public class StoryPanel extends JPanel {
     private final RpgButton continueButton;
     private final RpgButton backButton;
 
-    // --- Asset Paths ---
     private final String NPC_JABINES = "npc_jabines.png";
     private final String NPC_LEGASPINO = "npc_legaspino.png";
 
-    // --- Data Maps for NPC Story and Stats ---
     private final String NPC_NAME_JABINES = "Snyd Jabines (Merchant)";
     private final String NPC_NAME_LEGASPINO = "Alsen Blythe Legaspino (Narrator)";
 
-    // Storylines pulled from your README.md
     private final Map<String, String> CHARACTER_STORIES = Map.of(
             "Bron", "Welcome, determined IT Student! Bron is a determined student who dreams of earning his “certification.” To achieve it, he must conquer every subject that stands in his way.",
             "Abdul", "Developer in training, welcome. Abdul is a hardworking CIT student fighting through stress and challenges. His dream is to become a developer who will make the world a better place.",
             "Jamal", "Jamal, a shiftee from another program, has finally found his passion. Now he fights to prove his worth."
     );
 
-    // UPDATED MAP: Includes Basic, Intermediate, and Ultimate Skills
     private final Map<String, String> CHARACTER_STATS = Map.of(
             "Bron", "HP: 1500 | Mana: 500\nBasic: Bits (500 DMG, 4s CD)\nIntermediate: Syntax Error (230 DMG, 12s CD)\nUltimate: RJ45 Bomb (550 DMG, 60s CD)",
             "Abdul", "HP: 1500 | Mana: 500\nBasic: Server Guard (500 DMG, 4s CD)\nIntermediate: Abstract Invi (250 DMG, 15s CD)\nUltimate: Automata (550 DMG, 60s CD)",
@@ -49,26 +41,22 @@ public class StoryPanel extends JPanel {
         gameViewPlaceholder.setBackground(new Color(20, 0, 0));
         add(gameViewPlaceholder, BorderLayout.CENTER);
 
-        // --- BOTTOM: The Dialogue Box Container (Fixed Height) ---
         JPanel dialogueBoxContainer = new JPanel(new BorderLayout());
         dialogueBoxContainer.setPreferredSize(new Dimension(800, 300));
         dialogueBoxContainer.setBackground(new Color(62, 0, 0, 200));
         dialogueBoxContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // 1. NPC Image (Bottom Left)
         npcLabel = new JLabel();
         npcLabel.setPreferredSize(new Dimension(200, 280));
         npcLabel.setHorizontalAlignment(SwingConstants.CENTER);
         npcLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-        // Initial load placeholder
+
         loadNpcImage(NPC_JABINES);
         dialogueBoxContainer.add(npcLabel, BorderLayout.WEST);
 
-        // 2. Text and Buttons (Center/East)
         JPanel textAndButtonsPanel = new JPanel(new BorderLayout(10, 10));
         textAndButtonsPanel.setOpaque(false);
 
-        // --- Dialogue Text Area ---
         storyTextArea = new JTextArea();
         storyTextArea.setEditable(false);
         storyTextArea.setWrapStyleWord(true);
@@ -85,17 +73,14 @@ public class StoryPanel extends JPanel {
 
         textAndButtonsPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // --- Buttons (Bottom Right) ---
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setOpaque(false);
 
-        // Back Button
         backButton = new RpgButton("BACK TO SELECT", 28);
         backButton.setPreferredSize(new Dimension(250, 40));
         backButton.addActionListener(e -> driver.changeState(MainGameDriver.GameState.SELECT_CHAR));
         buttonPanel.add(backButton);
 
-        // Continue Button
         continueButton = new RpgButton("CONTINUE", 28);
         continueButton.setPreferredSize(new Dimension(250, 40));
         buttonPanel.add(continueButton);
@@ -107,11 +92,7 @@ public class StoryPanel extends JPanel {
         add(dialogueBoxContainer, BorderLayout.SOUTH);
     }
 
-    /**
-     * FIX: Only accepts characterName for Map 1 Intro Story.
-     */
     public void displayStory(String characterName) {
-        // --- CRITICAL FIX 1: Load Jabines Image for Map Intro ---
         loadNpcImage(NPC_JABINES);
 
         String story = CHARACTER_STORIES.getOrDefault(characterName, "The narrator is busy. Proceed with caution!");
@@ -128,20 +109,15 @@ public class StoryPanel extends JPanel {
         storyTextArea.setText(fullDialogue);
         storyTextArea.setCaretPosition(0);
 
-        // Reset continue button action for PLAYING state
         for (java.awt.event.ActionListener al : continueButton.getActionListeners()) {
             continueButton.removeActionListener(al);
         }
         continueButton.setText("CONTINUE");
         continueButton.addActionListener(e -> driver.changeState(MainGameDriver.GameState.PLAYING));
-        backButton.setVisible(true); // Ensure back button is visible for intro
+        backButton.setVisible(true);
     }
 
-    /**
-     * Handles the Map Cleared progression logic (Legaspino).
-     */
     public void displayMapCleared(String characterName, int clearedMap) {
-        // --- CRITICAL FIX 2: Load Legaspino Image for Map Clear ---
         loadNpcImage(NPC_LEGASPINO);
 
         String message = String.format(
@@ -152,11 +128,10 @@ public class StoryPanel extends JPanel {
         );
         storyTextArea.setText(message);
 
-        // Set continue button action to switch to the MENU
         for (java.awt.event.ActionListener al : continueButton.getActionListeners()) {
             continueButton.removeActionListener(al);
         }
-        backButton.setVisible(false); // Cannot go back from map clear screen
+        backButton.setVisible(false);
         continueButton.setText("RETURN TO MENU");
 
         continueButton.addActionListener(e -> {
@@ -181,7 +156,6 @@ public class StoryPanel extends JPanel {
         }
     }
 
-    // RpgButton Class (omitted for brevity)
     class RpgButton extends JButton {
         public RpgButton(String text, int fontSize) {
             super(text);

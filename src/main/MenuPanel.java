@@ -5,11 +5,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MenuPanel extends JPanel { // Extends JPanel now
+public class MenuPanel extends JPanel {
 
     private MainGameDriver driver;
 
-    // --- Custom Button Class ---
     class RpgButton extends JButton {
         public RpgButton(String text) {
             super(text);
@@ -46,7 +45,6 @@ public class MenuPanel extends JPanel { // Extends JPanel now
         }
     }
 
-    // --- Background Panel ---
     class BackgroundPanel extends JPanel {
         private Image backgroundImage;
 
@@ -75,20 +73,17 @@ public class MenuPanel extends JPanel { // Extends JPanel now
         }
     }
 
-    // --- CONSTRUCTOR: Takes the driver reference ---
     public MenuPanel(MainGameDriver driver) {
         this.driver = driver;
         initComponents();
     }
 
     private void initComponents() {
-        // Set Background
         BackgroundPanel bgPanel = new BackgroundPanel("menu_bg.png");
         setLayout(new BorderLayout());
         bgPanel.setLayout(new GroupLayout(bgPanel));
         add(bgPanel, BorderLayout.CENTER);
 
-        // --- BUTTONS ---
         btnStart = new RpgButton("START");
         btnStart.addActionListener(this::btnStartActionPerformed);
 
@@ -103,7 +98,6 @@ public class MenuPanel extends JPanel { // Extends JPanel now
         btnExit.setFont(new Font("Consolas", Font.BOLD, 18));
         btnExit.addActionListener(this::btnExitActionPerformed);
 
-        // --- LAYOUT ---
         GroupLayout layout = (GroupLayout) bgPanel.getLayout();
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -123,7 +117,7 @@ public class MenuPanel extends JPanel { // Extends JPanel now
 
         layout.setVerticalGroup(
                 layout.createSequentialGroup()
-                        .addGap(280) // Push buttons down below the title graphic
+                        .addGap(280)
                         .addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                         .addGap(20)
                         .addComponent(btnAbout, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
@@ -157,7 +151,6 @@ public class MenuPanel extends JPanel { // Extends JPanel now
         System.exit(0);
     }
 
-    // Variables
     private RpgButton btnAbout;
     private RpgButton btnExit;
     private RpgButton btnMusicBG;
