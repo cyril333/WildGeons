@@ -12,6 +12,7 @@ public class MainGameDriver extends JFrame {
         MAP_CLEARED_STORY,
         PLAYING
     }
+
     private GameState currentState = GameState.MENU;
     private String selectedCharacterName = "Bron";
 

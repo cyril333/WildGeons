@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int currentMana = MAX_MANA;
     private final long ATTACK_COOLDOWN_MS = 4000;
     private final int BITS_MANA_COST = 30;
-    private final int BITS_DAMAGE = 800; // SYNCHRONIZED: Damage set to 800 for quick testing
+    private final int BITS_DAMAGE = 180;
     private long attackStartTime = 0;
     private final long ATTACK_DURATION_MS = 200;
     private long bossAttackStartTime = 0;

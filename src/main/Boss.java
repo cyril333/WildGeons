@@ -19,7 +19,7 @@ public class Boss extends GameEntity {
     private final int MAX_Y = 500;
 
     private static final int BASE_HP = 1500;
-    private static final int BASE_DAMAGE = 150;
+    private static final int BASE_DAMAGE = 200;
     private static final long ATTACK_INTERVAL = 4000;
 
     public Boss(int x, int y, Image sprite) {

@@ -3,7 +3,7 @@ package main;
 import java.awt.*;
 import javax.swing.JComponent;
 
-public class GameEntity {
+public class GameEntity implements IDrawableEntity, IGameEntity {
 
     protected int x, y;
     protected int width, height;
@@ -89,16 +89,45 @@ public class GameEntity {
     public int getY() {
         return y;
     }
-    public int getHP() { return hp; }
-    public int getMaxHP() { return maxHP; }
-    public int getDamage() { return damage; }
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
-    public long getLastAttackTime() { return lastAttackTime; } // FIX: Added missing getter
-    public String getPlayerName() { return playerName; }
+
+    public int getHP() {
+        return hp;
+    }
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public long getLastAttackTime() {
+        return lastAttackTime;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
 
     // mga setters
-    public void setX(int x) { this.x = x; }
-    public void setY(int y) { this.y = y; }
-    public void takeDamage(int damage) { this.hp -= damage; }
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void takeDamage(int damage) {
+        this.hp -= damage;
+    }
 }
